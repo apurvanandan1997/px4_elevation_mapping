@@ -1,0 +1,11 @@
+<launch>
+
+<include file="$(find mavros)/launch/px4.launch"></include>
+<include file="$(find realsense2_camera)/launch/demo_pointcloud.launch"></include>
+<node pkg="tf" type="static_transform_publisher" name="odom_to_base_link" args="0 0 0 0 0 0 /odom /base_link 100"/>
+<node pkg="tf" type="static_transform_publisher" name="base_link_to_camera" args="0 0 0 0 1.5708 0 /base_link /camera_link 100"/>
+<node pkg="odom_to_pose" type="odom_to_pose" name="odom_to_pose" ></node>
+
+<include file="$(find elevation_mapping_demos)/launch/simple_demo.launch"></include>
+<node name="rviz" pkg="rviz" type="rviz" args="-d $(find elevation_mapping_demos)/rviz/px4_elev_map_config.rviz" required="true" />
+</launch>
